@@ -17,6 +17,15 @@ public class Main {
         historicoVisualizacao.mostrartotalItensVisualizados();
         historicoVisualizacao.listaVisualizacoes();
 
+        Long idParaRemover = 1L;
+        boolean removido = database.removerItemCardapio(idParaRemover);
+        if (removido) {
+            System.out.println("Item removido: " + idParaRemover);
+        } else {
+            System.out.println("Item não encontrado para remoção: " + idParaRemover);
+        }
+        database.listaDeItensCardapio().forEach(System.out::println);
+
 //        List<ItemCardapio> itens = database.listaDeItensCardapio();
 //        itens.forEach(System.out::println);
 //

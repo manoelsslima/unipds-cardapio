@@ -47,4 +47,9 @@ public class Database {
     public Optional<ItemCardapio> itemCardapioPorId(long id) {
         return Optional.ofNullable(itensPorId.get(id));
     }
+
+    public boolean removerItemCardapio(Long idParaRemover) {
+        ItemCardapio removed = itensPorId.remove(idParaRemover);
+        return removed != null;
+    }
 }
