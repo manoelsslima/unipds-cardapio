@@ -52,4 +52,14 @@ public class Database {
         ItemCardapio removed = itensPorId.remove(idParaRemover);
         return removed != null;
     }
+
+    public boolean alterarPrecoItemCardapio(long itemId, BigDecimal novoPreco) {
+        ItemCardapio item = itensPorId.get(itemId);
+        if (item == null) {
+            return false;
+        }
+        ItemCardapio itemCardapio = item.atlerarPreco(novoPreco);
+        itensPorId.put(itemId, itemCardapio); // substitui o item antigo pelo novo item com o preço atualizado
+        return true;
+    }
 }

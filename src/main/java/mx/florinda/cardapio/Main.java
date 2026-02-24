@@ -1,37 +1,47 @@
 package mx.florinda.cardapio;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
         Database database = new Database();
+        // precisa alterar o preço de um item do cardápio
 
-        // preciso de um histórico de visualização do cardápio
-        HistoricoVisualizacao historico = new HistoricoVisualizacao(database);
-        historico.registrarVisualizacao(1L);
-        historico.registrarVisualizacao(2L);
-        historico.registrarVisualizacao(4L);
-        historico.registrarVisualizacao(6L);
+        ItemCardapio item = database.itemCardapioPorId(1L).orElseThrow();
+        System.out.printf("\n%s (%d) R$ %s", item.nome(), item.id(), item.preco());
+        boolean alterado = database.alterarPrecoItemCardapio(1L, new BigDecimal("3.99"));
 
-        historico.mostrartotalItensVisualizados();
-        historico.listaVisualizacoes();
+        ItemCardapio itemAlterado = database.itemCardapioPorId(1L).orElseThrow();
+        System.out.printf("\n%s (%d) R$ %s", itemAlterado.nome(), itemAlterado.id(), itemAlterado.preco());
 
-        Long idParaRemover = 1L;
-        boolean removido = database.removerItemCardapio(idParaRemover);
-        if (removido) {
-            System.out.println("Item removido: " + idParaRemover);
-        } else {
-            System.out.println("Item não encontrado para remoção: " + idParaRemover);
-        }
-        database.listaDeItensCardapio().forEach(System.out::println);
 
-        System.out.println("Solicitando o GC...");
-        System.gc();
-        Thread.sleep(500); // Aguarda um pouco para garantir que o coletor de lixo tenha tempo de processar os objetos fracos
-
-        historico.mostrartotalItensVisualizados();
-        historico.listaVisualizacoes();
+//        // preciso de um histórico de visualização do cardápio
+//        HistoricoVisualizacao historico = new HistoricoVisualizacao(database);
+//        historico.registrarVisualizacao(1L);
+//        historico.registrarVisualizacao(2L);
+//        historico.registrarVisualizacao(4L);
+//        historico.registrarVisualizacao(6L);
+//
+//        historico.mostrartotalItensVisualizados();
+//        historico.listaVisualizacoes();
+//
+//        Long idParaRemover = 1L;
+//        boolean removido = database.removerItemCardapio(idParaRemover);
+//        if (removido) {
+//            System.out.println("Item removido: " + idParaRemover);
+//        } else {
+//            System.out.println("Item não encontrado para remoção: " + idParaRemover);
+//        }
+//        database.listaDeItensCardapio().forEach(System.out::println);
+//
+//        System.out.println("Solicitando o GC...");
+//        System.gc();
+//        Thread.sleep(500); // Aguarda um pouco para garantir que o coletor de lixo tenha tempo de processar os objetos fracos
+//
+//        historico.mostrartotalItensVisualizados();
+//        historico.listaVisualizacoes();
 
 //        List<ItemCardapio> itens = database.listaDeItensCardapio();
 //        itens.forEach(System.out::println);
