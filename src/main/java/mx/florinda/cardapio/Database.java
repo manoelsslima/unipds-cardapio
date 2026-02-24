@@ -7,6 +7,7 @@ import java.util.*;
 public class Database {
 
     private final Map<Long, ItemCardapio> itensPorId = new HashMap<>();
+    private final Map<ItemCardapio, BigDecimal> auditoriaPrecos = new IdentityHashMap<>();
 
     public Database() {
         ItemCardapio refrescoDoChaves = new ItemCardapio(1L, "Refresco do Chaves", """
@@ -54,12 +55,21 @@ public class Database {
     }
 
     public boolean alterarPrecoItemCardapio(long itemId, BigDecimal novoPreco) {
-        ItemCardapio item = itensPorId.get(itemId);
-        if (item == null) {
+        ItemCardapio itemAntigo = itensPorId.get(itemId);
+        if (itemAntigo == null) {
             return false;
         }
-        ItemCardapio itemCardapio = item.atlerarPreco(novoPreco);
-        itensPorId.put(itemId, itemCardapio); // substitui o item antigo pelo novo item com o preço atualizado
+        ItemCardapio novoItem = itemAntigo.atlerarPreco(novoPreco);
+        itensPorId.put(itemId, novoItem); // substitui o item antigo pelo novo item com o preço atualizado
+        auditoriaPrecos.put(itemAntigo, novoPreco);
         return true;
+    }
+
+    public void imprimirRastroAuditoriaPreco() {
+        System.out.println("\nRastro de auditoria de preços:");
+        auditoriaPrecos.forEach((itemAntigo, novoPreco) -> {
+            System.out.printf("- %s: %s => %s\n", itemAntigo.nome(), itemAntigo.preco(), novoPreco);
+        });
+        System.out.println();
     }
 }

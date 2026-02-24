@@ -1,7 +1,6 @@
 package mx.florinda.cardapio;
 
 import java.math.BigDecimal;
-import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,6 +14,14 @@ public class Main {
 
         ItemCardapio itemAlterado = database.itemCardapioPorId(1L).orElseThrow();
         System.out.printf("\n%s (%d) R$ %s", itemAlterado.nome(), itemAlterado.id(), itemAlterado.preco());
+
+        boolean alterado2 = database.alterarPrecoItemCardapio(1L, new BigDecimal("2.99"));
+
+        database.alterarPrecoItemCardapio(1L, new BigDecimal("4.99"));
+        System.out.printf("\n%s (%d) R$ %s", itemAlterado.nome(), itemAlterado.id(), itemAlterado.preco());
+
+        // preciso auditar as mudanças de preços dos itens do cardápio
+        database.imprimirRastroAuditoriaPreco();
 
 
 //        // preciso de um histórico de visualização do cardápio
