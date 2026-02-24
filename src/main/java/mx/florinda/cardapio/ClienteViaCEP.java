@@ -12,5 +12,6 @@ public class ClienteViaCEP {
         while(scanner.hasNext()) {
             System.out.println(scanner.nextLine());
         }
+        scanner.close();
     }
 }
