@@ -3,19 +3,19 @@ package mx.florinda.cardapio;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         Database database = new Database();
 
         // preciso de um histórico de visualização do cardápio
-        HistoricoVisualizacao historicoVisualizacao = new HistoricoVisualizacao(database);
-        historicoVisualizacao.registrarVisualizacao(1L);
-        historicoVisualizacao.registrarVisualizacao(2L);
-        historicoVisualizacao.registrarVisualizacao(4L);
-        historicoVisualizacao.registrarVisualizacao(6L);
+        HistoricoVisualizacao historico = new HistoricoVisualizacao(database);
+        historico.registrarVisualizacao(1L);
+        historico.registrarVisualizacao(2L);
+        historico.registrarVisualizacao(4L);
+        historico.registrarVisualizacao(6L);
 
-        historicoVisualizacao.mostrartotalItensVisualizados();
-        historicoVisualizacao.listaVisualizacoes();
+        historico.mostrartotalItensVisualizados();
+        historico.listaVisualizacoes();
 
         Long idParaRemover = 1L;
         boolean removido = database.removerItemCardapio(idParaRemover);
@@ -25,6 +25,13 @@ public class Main {
             System.out.println("Item não encontrado para remoção: " + idParaRemover);
         }
         database.listaDeItensCardapio().forEach(System.out::println);
+
+        System.out.println("Solicitando o GC...");
+        System.gc();
+        Thread.sleep(500); // Aguarda um pouco para garantir que o coletor de lixo tenha tempo de processar os objetos fracos
+
+        historico.mostrartotalItensVisualizados();
+        historico.listaVisualizacoes();
 
 //        List<ItemCardapio> itens = database.listaDeItensCardapio();
 //        itens.forEach(System.out::println);
