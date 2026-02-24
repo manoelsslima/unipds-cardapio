@@ -16,7 +16,7 @@ public class ServidorItensCardapio {
         InetSocketAddress inetSocketAdress = new InetSocketAddress(8099);
         HttpServer server = HttpServer.create(inetSocketAdress, 0);
 
-        server.createContext("/itensCardapio.json", exchange -> {
+        server.createContext("/itens-cardapio", exchange -> {
             Path path = Path.of("itensCardapio.json");
             String json = Files.readString(path);
             byte[] bytes = json.getBytes();
