@@ -7,11 +7,16 @@ public class ClienteViaCEP {
 
     public static void main(String[] args) throws Exception {
         URL url = new URL("https://viacep.com.br/ws/01001000/json");
-
-        Scanner scanner = new Scanner(url.openStream());
-        while(scanner.hasNext()) {
-            System.out.println(scanner.nextLine());
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(url.openStream());
+            while (scanner.hasNext()) {
+                System.out.println(scanner.nextLine());
+            }
+        } finally {
+            if (scanner != null) {
+                scanner.close();
+            }
         }
-        scanner.close();
     }
 }
