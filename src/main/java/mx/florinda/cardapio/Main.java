@@ -3,7 +3,7 @@ package mx.florinda.cardapio;
 import java.math.BigDecimal;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         Database database = new Database();
         // precisa alterar o preço de um item do cardápio
@@ -49,6 +49,13 @@ public class Main {
 //
 //        historico.mostrartotalItensVisualizados();
 //        historico.listaVisualizacoes();
+
+//        System.out.println("Solicitando o GC...");
+//        System.gc();
+//        Thread.sleep(500);
+
+//        historicoVisualizacao.mostrartotalItensVisualizados();
+//        historicoVisualizacao.listaVisualizacoes();
 
 //        List<ItemCardapio> itens = database.listaDeItensCardapio();
 //        itens.forEach(System.out::println);
