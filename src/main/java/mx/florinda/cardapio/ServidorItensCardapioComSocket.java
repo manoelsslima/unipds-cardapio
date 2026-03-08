@@ -8,17 +8,24 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ServidorItensCardapioComSocket {
     public static void main(String[] args) throws IOException {
 
-        try (ServerSocket serverSocket = new ServerSocket(8099)) {
-            System.out.println("Servidor de itens do cardapio rodando na porta 8099...");
+        // limitando em 50 o número de threads. Sugestão: no máximo o número de cpus
+        try (ExecutorService executor = Executors.newFixedThreadPool(50)) {
 
-            while (true) {
-                Socket clientSocket = serverSocket.accept();
-                Thread thread = new Thread(() -> trataRequisicao(clientSocket));
-                thread.start();
+            try (ServerSocket serverSocket = new ServerSocket(8099)) {
+                System.out.println("Servidor de itens do cardapio rodando na porta 8099...");
+
+                while (true) {
+                    Socket clientSocket = serverSocket.accept();
+                    // Thread thread = new Thread(() -> trataRequisicao(clientSocket));
+                    executor.execute(() -> trataRequisicao(clientSocket));
+                    // thread.start();
+                }
             }
         }
     }
