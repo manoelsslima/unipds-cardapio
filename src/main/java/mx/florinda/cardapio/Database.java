@@ -72,4 +72,8 @@ public class Database {
         });
         System.out.println();
     }
+
+    public void adicionaItemCardapio(ItemCardapio itemCardapio) {
+        itensPorId.put(itemCardapio.id(), itemCardapio);
+    }
 }
