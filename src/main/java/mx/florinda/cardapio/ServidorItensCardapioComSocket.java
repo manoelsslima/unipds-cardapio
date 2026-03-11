@@ -71,11 +71,23 @@ public class ServidorItensCardapioComSocket {
 
             OutputStream clientOS = clientSocket.getOutputStream();
             PrintStream clientOut = new PrintStream(clientOS); // crio o PrintStream para enviar para o out
-            if (method.equals("GET") && requestURI.equals("/itens-cardapio")) {
-                System.out.println("GET /itens-cardapio");
+            if (method.equals("GET") && requestURI.equals("/itens-cardapio/json")) {
+                System.out.println("GET /itens-cardapio/json");
 
                 Path path = Path.of("itensCardapio.json");
                 String json = Files.readString(path);
+
+                clientOut.println("HTTP/1.1 200 OK");
+                clientOut.println("Content-Type: application/json; charset=UTF-8");
+                clientOut.println("Content-Length: " + json.getBytes().length);
+                clientOut.println(); // linha em branco para separar os headers do body
+                clientOut.println(json);
+            } else if (method.equals("GET") && requestURI.equals("/itens-cardapio")) {
+                System.out.println("GET /itens-cardapio");
+
+                List<ItemCardapio> listaDeItensCardapio = database.listaDeItensCardapio();
+                Gson gson = new Gson();
+                String json = gson.toJson(listaDeItensCardapio);
 
                 clientOut.println("HTTP/1.1 200 OK");
                 clientOut.println("Content-Type: application/json; charset=UTF-8");
