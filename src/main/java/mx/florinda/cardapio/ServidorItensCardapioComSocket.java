@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 
 public class ServidorItensCardapioComSocket {
 
-    private static final Database database = new Database();
+    private static final Database database = new InMemoryDatabase();
 
     public static void main(String[] args) throws IOException {
 
@@ -96,12 +96,13 @@ public class ServidorItensCardapioComSocket {
                 clientOut.println(json);
             } else if (method.equals("GET") && requestURI.equals("/itens-cardapio/total")) {
                 System.out.println("GET /itens-cardapio/total");
-                List<ItemCardapio> listaDeItensCardapio = database.listaDeItensCardapio();
+                // List<ItemCardapio> listaDeItensCardapio = database.listaDeItensCardapio();
 
                 clientOut.println("HTTP/1.1 200 OK");
                 clientOut.println("Content-Type: application/json; charset=UTF-8");
                 clientOut.println();
-                clientOut.println(listaDeItensCardapio.size());
+                // clientOut.println(listaDeItensCardapio.size());
+                clientOut.println(database.totalItensCardapio());
             } else if (method.equals("POST") && requestURI.equals("/itens-cardapio")) {
                 System.out.println("POST /itens-cardapio");
                 if (requestChunks.length == 1) {

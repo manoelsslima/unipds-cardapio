@@ -1,27 +1,32 @@
 package mx.florinda.cardapio;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
+        Database database = new SQLDatabase();
 
-        Database database = new Database();
-        // precisa alterar o preço de um item do cardápio
+        List<ItemCardapio> listaItensCardapio = database.listaDeItensCardapio();
+        listaItensCardapio.forEach(System.out::println);
 
-        ItemCardapio item = database.itemCardapioPorId(1L).orElseThrow();
-        System.out.printf("\n%s (%d) R$ %s", item.nome(), item.id(), item.preco());
-        boolean alterado = database.alterarPrecoItemCardapio(1L, new BigDecimal("3.99"));
 
-        ItemCardapio itemAlterado = database.itemCardapioPorId(1L).orElseThrow();
-        System.out.printf("\n%s (%d) R$ %s", itemAlterado.nome(), itemAlterado.id(), itemAlterado.preco());
-
-        boolean alterado2 = database.alterarPrecoItemCardapio(1L, new BigDecimal("2.99"));
-
-        database.alterarPrecoItemCardapio(1L, new BigDecimal("4.99"));
-        System.out.printf("\n%s (%d) R$ %s", itemAlterado.nome(), itemAlterado.id(), itemAlterado.preco());
-
-        // preciso auditar as mudanças de preços dos itens do cardápio
-        database.imprimirRastroAuditoriaPreco();
+//        InMemoryDatabase database = new InMemoryDatabase();
+//        // precisa alterar o preço de um item do cardápio
+//
+//        ItemCardapio item = database.itemCardapioPorId(1L).orElseThrow();
+//        System.out.printf("\n%s (%d) R$ %s", item.nome(), item.id(), item.preco());
+//        boolean alterado = database.alterarPrecoItemCardapio(1L, new BigDecimal("3.99"));
+//
+//        ItemCardapio itemAlterado = database.itemCardapioPorId(1L).orElseThrow();
+//        System.out.printf("\n%s (%d) R$ %s", itemAlterado.nome(), itemAlterado.id(), itemAlterado.preco());
+//
+//        boolean alterado2 = database.alterarPrecoItemCardapio(1L, new BigDecimal("2.99"));
+//
+//        database.alterarPrecoItemCardapio(1L, new BigDecimal("4.99"));
+//        System.out.printf("\n%s (%d) R$ %s", itemAlterado.nome(), itemAlterado.id(), itemAlterado.preco());
+//
+//        // preciso auditar as mudanças de preços dos itens do cardápio
+//        database.imprimirRastroAuditoriaPreco();
 
 
 //        // preciso de um histórico de visualização do cardápio

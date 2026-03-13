@@ -11,7 +11,7 @@ public class GeradorItensCardapioJSON {
 
     public static void main(String[] args) throws IOException {
 
-        Database database = new Database();
+        Database database = new InMemoryDatabase();
         List<ItemCardapio> listaItensCardapio = database.listaDeItensCardapio();
 
         Gson gson = new Gson();
