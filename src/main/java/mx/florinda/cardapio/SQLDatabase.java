@@ -12,10 +12,10 @@ public class SQLDatabase implements Database {
     public List<ItemCardapio> listaDeItensCardapio() {
         ArrayList<ItemCardapio> itens = new ArrayList<>();
         String sql = "SELECT id, nome, descricao, categoria, preco, preco_promocional FROM item_cardapio";
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cardapio", "root", "senha123");
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery(sql);
+        try (
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cardapio", "root", "senha123");
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery(sql)) {
             while (rs.next()) {
                 long id = rs.getLong("id");
                 String nome = rs.getString("nome");
@@ -35,12 +35,37 @@ public class SQLDatabase implements Database {
 
     @Override
     public int totalItensCardapio() {
-        return 0;
+        String sql = "SELECT COUNT(*) as total FROM item_cardapio";
+        try (
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cardapio", "root", "senha123");
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery(sql)) {
+            int total = 0;
+            if (rs.next()) {
+                total = rs.getInt(1); // o índice começa com 1
+            }
+            return total;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void adicionaItemCardapio(ItemCardapio itemCardapio) {
-
+        String sql = "INSERT INTO item_cardapio (nome, descricao, categoria, preco, preco_promocional) " +
+                "VALUES (?, ?, ?, ?, ?)";
+        try (
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cardapio", "root", "senha123");
+                PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, itemCardapio.nome());
+            ps.setString(2, itemCardapio.descricao());
+            ps.setString(3, itemCardapio.categoria().name());
+            ps.setBigDecimal(4, itemCardapio.preco());
+            ps.setBigDecimal(5, itemCardapio.precoComDesconto());
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

@@ -1,14 +1,23 @@
 package mx.florinda.cardapio;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         Database database = new SQLDatabase();
 
         List<ItemCardapio> listaItensCardapio = database.listaDeItensCardapio();
         listaItensCardapio.forEach(System.out::println);
 
+        int total = database.totalItensCardapio();
+        System.out.println("Total de itens cardapio: " + total);
+
+        ItemCardapio itemCardapio = new ItemCardapio(7L, "Coca-cola", "Refrigerante de cola", ItemCardapio.CategoriaCardapio.BEBIDAS, new BigDecimal("15.87"), null);
+        database.adicionaItemCardapio(itemCardapio);
+
+        int novoTotal = database.totalItensCardapio();
+        System.out.println("Novo total de itens cardapio: " + novoTotal);
 
 //        InMemoryDatabase database = new InMemoryDatabase();
 //        // precisa alterar o preço de um item do cardápio
